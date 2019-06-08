@@ -980,59 +980,59 @@ freemaker.itemdir=C:\\redis\\web\\
 
 ###运营商后台
 
-![后台登录与注册](.\pinyougou\截图20190805072325.png)
+![后台登录与注册](.\截图20190805072325.png)
 
 ###进入商家后台
 
-![添加商品基本信息](.\pinyougou\图片14.png)
+![添加商品基本信息](F:\svn_work\pinyougou\图片14.png)
 
 ​                                                                图6.4 新增商品基本信息
 
-![上传商品图片信息](.\pinyougou\图片15.png)
+![上传商品图片信息](F:\svn_work\pinyougou\图片15.png)
 
 ​                                                                图6.5新增商品图片信息
 
-![添加商品扩展信息](.\pinyougou\图片16.png)
+![添加商品扩展信息](F:\svn_work\pinyougou\图片16.png)
 
 ​                                                                图6.6 新增商品扩展信息
 
-![添加商品规格列表](.\pinyougou\图片17.png)
+![添加商品规格列表](F:\svn_work\pinyougou\图片17.png)
 
 ​                                                                图6.7 启用商品规格信息
 
-![添加商品](.\pinyougou\图片18.png)
+![添加商品](F:\svn_work\pinyougou\图片18.png)
 
 ​                                                                图6.8 添加商品
 
 ###网站前台
 
-![用户注册](.\pinyougou\图片22.png)
+![用户注册](F:\svn_work\pinyougou\图片22.png)
 
 ​                                                                图6.8 用户注册
 
-![前台登录](.\pinyougou\图片20.png)
+![前台登录](F:\svn_work\pinyougou\图片20.png)
 
 ​                                                                图6.9 用户登录
 
-![前台主页](.\pinyougou\图片19.png)
+![前台主页](F:\svn_work\pinyougou\图片19.png)
 
 ​                                                                图6.10 系统前台主页
 
-![商品搜索](.\pinyougou\图片24.png)
+![商品搜索](F:\svn_work\pinyougou\图片24.png)
 
 ​                                                                图6.11 商品搜索
 
-![添加购物车](.\pinyougou\图片26.png)
+![添加购物车](F:\svn_work\pinyougou\图片26.png)
 
 ​                                                                图6.12购物车
 
 
 
-![用户下单](.\pinyougou\图片27.png)
+![用户下单](F:\svn_work\pinyougou\图片27.png)
 
 ​                                                                图6.13 用户下单
 
-![添加收货地址](.\pinyougou\图片28.png)
+![添加收货地址](F:\svn_work\pinyougou\图片28.png)
 
 
 
