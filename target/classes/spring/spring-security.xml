@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-2.5.xsd   
+						http://www.springframework.org/schema/security 
+						http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+
+	<!-- manager-admin匿名访问资源 -->
+	<http pattern="/manager-admin/css/**" security="none"></http>
+	<http pattern="/manager-admin/js/**" security="none"></http>
+	<http pattern="/manager-admin/img/**" security="none"></http>
+	<http pattern="/manager-admin/plugins/**" security="none"></http>
+	<http pattern="/manager-admin/admin/*.html" security="none"></http>
+
+	<!--web匿名访问资源 -->
+	<http pattern="/index.html" security="none"></http>
+	
+	<http pattern="/web/css/**" security="none"></http>
+	<http pattern="/web/js/**" security="none"></http>
+	<http pattern="/web/img/**" security="none"></http>
+	<http pattern="/web/plugins/**" security="none"></http>
+	<http pattern="/web/index.html" security="none"></http>
+	<http pattern="/web/register.html" security="none"></http>
+	<http pattern="/web/search.html" security="none"></http>
+	<http pattern="/web/item.html" security="none"></http>
+	
+	
+	<!--shop_web匿名访问资源 -->
+	<http pattern="/shop_web/css/**" security="none"></http>
+	<http pattern="/shop_web/js/**" security="none"></http>
+	<http pattern="/shop_web/img/**" security="none"></http>
+	<http pattern="/shop_web/plugins/**" security="none"></http>
+	<http pattern="/images/**" security="none"></http>
+	<http pattern="/shop_web/admin/**" security="none"></http>
+	<http pattern="/shop_web/register.html" security="none"></http>
+<!-- 	
+	
+	<http pattern="/brand/*.do" security="none"></http>
+	<http pattern="/contentCategory/*.do" security="none"></http>
+	<http pattern="/content/*.do" security="none"></http>
+	<http pattern="/goods/*.do" security="none"></http>
+	<http pattern="/itemCat/*.do" security="none"></http>
+	<http pattern="/itemsearch/*.do" security="none"></http>
+	<http pattern="/seller/*.do" security="none"></http>
+	<http pattern="/specification/*.do" security="none"></http>
+	<http pattern="/typeTemplate/*.do" security="none"></http>
+	<http pattern="/file/*.do" security="none"></http>
+	<http pattern="/login/*.do" security="none"></http>
+-->
+	
+	<!--   entry-point-ref  入口点引用 -->
+	<http use-expressions="false" entry-point-ref="casProcessingFilterEntryPoint">  
+        <intercept-url pattern="/cart/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/brand/*.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/contentCategory/*.do"	access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/content/*.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/goods/*.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/itemCat/*.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/itemsearch/*.do" 		access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/seller/*.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/specification/*.do" 	access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/typeTemplate/*.do" 	access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/file/*.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/images/**" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/item/*.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>		        
+		<intercept-url pattern="/user/add.do" 			access="IS_AUTHENTICATED_ANONYMOUSLY"/>		        
+		<intercept-url pattern="/user/findOne.do" 		access="IS_AUTHENTICATED_ANONYMOUSLY"/>	
+		<intercept-url pattern="/user/sendCode.do" 		access="IS_AUTHENTICATED_ANONYMOUSLY"/>	        
+        <intercept-url pattern="/user/searchEOne.do" 	access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+         <intercept-url pattern="/login/checkCode.do" 	access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+       
+        <intercept-url pattern="/**" access="ROLE_USER"/>   
+        <csrf disabled="true"/>  
+        <!-- custom-filter为过滤器， position 表示将过滤器放在指定的位置上，before表示放在指定位置之前  ，after表示放在指定的位置之后  -->           
+        <custom-filter ref="casAuthenticationFilter"  position="CAS_FILTER" />      
+        <custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER"/>  
+        <custom-filter ref="singleLogoutFilter" before="CAS_FILTER"/>  
+    </http>
+    
+  	<!-- CAS入口点 开始 -->
+    <beans:bean id="casProcessingFilterEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">  
+        <!-- 单点登录服务器登录URL -->  
+        <beans:property name="loginUrl" value="http://localhost:8810/cas/login"/>  
+        <beans:property name="serviceProperties" ref="serviceProperties"/>  
+    </beans:bean>      
+    <beans:bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">  
+        <!--service 配置自身工程的根地址+/login/cas   -->  
+        <beans:property name="service" value="http://localhost:8888/SSM-pinyougou/login/cas"/>
+    </beans:bean>  
+    <!-- CAS入口点 结束 -->
+   
+    <!-- 认证过滤器 开始 -->
+    <beans:bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">  
+        <beans:property name="authenticationManager" ref="authenticationManager"/>  
+    </beans:bean>  
+		<!-- 认证管理器 -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider  ref="casAuthenticationProvider">
+		</authentication-provider>
+	</authentication-manager>
+		<!-- 认证提供者 -->
+	<beans:bean id="casAuthenticationProvider"     class="org.springframework.security.cas.authentication.CasAuthenticationProvider">  
+        <beans:property name="authenticationUserDetailsService">  
+            <beans:bean class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">  
+                <beans:constructor-arg ref="userDetailsService" />  
+            </beans:bean>  
+        </beans:property>  
+        <beans:property name="serviceProperties" ref="serviceProperties"/>  
+        <!-- ticketValidator 为票据验证器 -->
+        <beans:property name="ticketValidator">  
+            <beans:bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">  
+                <beans:constructor-arg index="0" value="http://localhost:8810/cas"/>  
+            </beans:bean>  
+        </beans:property>  
+        <beans:property name="key" value="an_id_for_this_auth_provider_only"/> 
+    </beans:bean>        
+   		 <!-- 认证类 -->
+	<beans:bean id="userDetailsService" class="com.pinyougou.user.impl.UserDetailServiceImpl"/>  
+	
+	<!-- 认证过滤器 结束 -->
+	<!-- 单点登出  开始  -->     
+    <beans:bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter"/>          
+    <beans:bean id="requestSingleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">  
+        <beans:constructor-arg value="http://localhost:8810/cas/logout?service=http://localhost:8888/SSM-pinyougou/web/index.html"/>  
+        <beans:constructor-arg>  
+            <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>  
+        </beans:constructor-arg>  
+        <beans:property name="filterProcessesUrl" value="/logout/cas"/>  
+    </beans:bean>  
+    <!-- 单点登出  结束 -->  
+</beans:beans>

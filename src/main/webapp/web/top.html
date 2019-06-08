@@ -1,0 +1,37 @@
+		<div class="top">
+			<div class="py-container">
+				<div class="shortcut">
+					<ul class="fl">
+						<li class="f-item" ng-if="loginName!=''">尊敬的用户<span  style="color:red;">&nbsp;&nbsp;&nbsp;{{loginName}}&nbsp;</span>，品优购欢迎您！</li>
+						<li class="f-item" >欢迎进入品优购主页！<span ng-if="loginName==''">请<a href="login.html" target="_blank" >登录</a>　<a href="register.html" target="_blank">免费注册</a></span></li>
+					</ul>
+					<ul class="fr">
+						<li class="f-item"><a href="getOrderInfo.html">我的订单</a></li>
+						<li class="f-item space"></li>
+						<li class="f-item"><a href="home-index.html" target="_blank">我的品优购</a></li>
+						<li class="f-item space"></li>
+						<li class="f-item">品优购会员</li>
+						<li class="f-item space"></li>
+						<li class="f-item" ng-if="loginName!=''">
+						<a href="http://localhost:8810/cas/logout?service=http://localhost:8888/SSM-pinyougou/" style="color:red;">
+							退出
+						</a>
+						</li>
+						<li class="f-item {{loginName!=''?'space':''}}" ></li>
+						<li class="f-item">关注品优购</li>
+						<li class="f-item space"></li>
+						<li class="f-item" id="service">
+							<span>客户服务</span>
+							<ul class="service">
+								<li><a href="#" target="_blank">合作招商</a></li>
+								<li><a href="../shop_web/shoplogin.html" target="_blank">商家后台</a></li>
+								<li><a href="#" target="_blank">合作招商</a></li>
+								<li><a href="../manager-admin/login.html">后台管理</a></li>
+							</ul>
+						</li>
+						<li class="f-item space"></li>
+						<li class="f-item"><a href="index.html">网站首页</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>

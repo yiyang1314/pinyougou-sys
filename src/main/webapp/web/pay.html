@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>微信支付页</title>
+	    <!--网页标题左侧显示-->
+	    <link rel="icon" href="img/assets/favicon.ico" type="image/x-icon">
+	    <!--收藏夹显示图标-->
+	    <link rel="shortcut icon" href="img/assets/favicon.ico" type="image/x-icon">
+
+		<meta http-equiv="refresh" content="10;url=paysuccess.html"> 
+
+	    <link rel="stylesheet" type="text/css" href="css/webbase.css" />
+	    <link rel="stylesheet" type="text/css" href="css/pages-weixinpay.css" />
+		
+		<script type="text/javascript" src="plugins/angularjs/angular.min.js">  </script>
+	    <script type="text/javascript" src="js/qrious.min.js">  </script>
+	    <script type="text/javascript" src="js/base.js">  </script>
+	    <script type="text/javascript" src="js/service/orderItemService.js">  </script>
+	     <script type="text/javascript" src="js/controller/baseController.js">  </script>
+		<script type="text/javascript" src="js/service/orderService.js">  </script>
+	    <script type="text/javascript" src="js/controller/orderController.js">  </script>
+	    
+</head>
+
+	<body  ng-app="pinyougou" ng-controller="orderController" ng-init="showName();findOrder();">
+		<!--head-->
+		<div  ng-include="'top.html'"> </div>
+		<div class="cart py-container">
+			<!--logoArea-->
+			<div class="logoArea">
+				<div class="fl logo"><span class="title">收银台</span></div>
+
+			</div>
+			<!--主内容-->
+			<div class="checkout py-container  pay">
+				<div class="checkout-tit">
+					<h4 class="fl tit-txt"><span class="success-icon"></span><span  class="success-info">订单提交成功，请您及时付款！订单号：{{orderEntity.orderId}}</span></h4>
+                    <span class="fr"><em class="sui-lead">应付金额：</em><em  class="orange money">￥{{orderEntity.payment}}</em>元</span>
+					<div class="clearfix"></div>
+				</div>				
+				<div class="checkout-steps">
+					<div class="fl weixin">微信支付</div>
+                    <div class="fl sao"> 
+                        <p class="red">请快速完成扫码</p>                      
+                        <div class="fl code">
+                            <img src="#" alt="" id="qrious" height="250" width="250">
+                            <div class="saosao">
+                                <p>请使用微信扫一扫</p>
+                                <p>扫描二维码支付</p>
+                            </div>
+                        </div>
+                        <div class="fl phone">
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="clearfix"></div>
+				    <p><a href="pay.html" target="_blank">> 其他支付方式</a></p>
+				</div>
+			</div>
+
+		</div>
+		<!-- 底部栏位 -->
+		<!--页面底部-->
+<div class="clearfix footer">
+	<div class="py-container">
+		<div ng-include="'footer.html'"></div>
+	</div>
+</div>
+<!--页面底部END-->
+		
+	
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="js/widget/nav.js"></script>
+<script type="text/javascript">
+			$(function(){
+				$("ul.payType li").click(function(){
+					$(this).css("border","2px solid #E4393C").siblings().css("border-color","#ddd");
+				})
+			});
+		</script>
+</body>
+
+</html>

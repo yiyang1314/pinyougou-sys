@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>我的订单</title>
+    <!--网页标题左侧显示-->
+    <link rel="icon" href="img/assets/favicon.ico" type="image/x-icon">
+    <!--收藏夹显示图标-->
+    <link rel="shortcut icon" href="img/assets/favicon.ico" type="image/x-icon">
+
+
+    <link rel="stylesheet" type="text/css" href="css/webbase.css" />
+    <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+     <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/plugins/angularjs/angular.min.js"></script>
+	
+    <!-- 分页组件开始 -->
+	<script src="js/plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="js/plugins/angularjs/pagination.css">
+	<!-- 分页组件结束 -->
+	
+	<script type="text/javascript" src="js/base_pagination.js"></script>  
+    <script type="text/javascript" src="js/qrious.min.js">  </script>
+     <script type="text/javascript" src="js/controller/baseController.js">  </script>
+	<script type="text/javascript" src="js/service/orderService.js">  </script>
+	<script type="text/javascript" src="js/service/orderItemService.js">  </script>
+    <script type="text/javascript" src="js/controller/orderController.js">  </script>
+
+</head>
+
+<body ng-app="pinyougou" ng-controller="orderController" ng-init="showName();">
+    <!-- 头部栏位 -->
+    <!--页面顶部-->
+<div id="nav-bottom">
+	<div  ng-include="'searchtop.html'"> </div>
+</div>
+
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#service").hover(function(){
+		$(".service").show();
+	},function(){
+		$(".service").hide();
+	});
+	$("#shopcar").hover(function(){
+		$("#shopcarlist").show();
+	},function(){
+		$("#shopcarlist").hide();
+	});
+
+})
+</script>
+<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="js/widget/nav.js"></script>
+</body>
+    <!--header-->
+    <div id="account">
+        <div class="py-container">
+            <div class="yui3-g home">
+                <!--左侧列表-->
+                <div class="yui3-u-1-6 list">
+                    <div ng-include="'myhome.html'"></div>
+
+                </div>
+                <!--右侧主内容-->
+                <div class="yui3-u-5-6 order-pay">
+                    <div class="body">
+                        <div class="table-title">
+                            <table class="sui-table  order-table">
+                                <tr>
+                                    <thead>
+                                        <th width="35%">宝贝</th>
+                                        <th width="5%">单价</th>
+                                        <th width="5%">数量</th>
+                                        <th width="8%">商品操作</th>
+                                        <th width="10%">实付款</th>
+                                        <th width="10%">交易状态</th>
+                                        <th width="10%">交易操作</th>
+                                    </thead>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="order-detail">
+                            <div class="orders">
+                                <div class="choose-order">
+                                    <div class="sui-pagination pagination-large top-pages">
+                                        <ul>
+                                            <li class="prev disabled"><a href="#">上一页</a></li>
+
+                                            <li class="next"><a href="#">下一页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+								<div  ng-repeat="order in list">
+								<!--order1-->
+                                <div class="choose-title">
+                                    <label data-toggle="checkbox" class="checkbox-pretty ">
+                                           <input type="checkbox" checked="checked"><span>{{order.createTime}}　订单编号：{{order.orderId}}  店铺：{{order.sellerId}} <a>和我联系</a></span>
+                                     </label>
+									  <a class="sui-btn btn-info share-btn">分享</a>
+                                </div>
+                                <table class="sui-table table-bordered order-datatable">
+                                    <tbody>
+                                        <tr >
+                                            <td width="35%">
+                                                <div class="typographic"><img src="img/goods.png" />
+                                                    <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
+                                                    <span class="guige">规格：温泉喷雾150ml</span>
+                                                </div>
+                                            </td>
+                                            <td width="5%" class="center">
+                                                <ul class="unstyled">
+                                                    <li class="o-price">¥{{order.payment}}</li>
+                                                    <li>¥{{order.payment}}</li>
+                                                </ul>
+                                            </td>
+                                            <td width="5%" class="center">{{order.num}}</td>
+                                            <td width="8%" class="center">
+                                               
+                                            </td>
+                                            <td width="10%" class="center" >
+                                                <ul class="unstyled">
+                                                    <li>¥{{order.payment}}</li>
+                                                    <li>（含运费：￥0.00）</li>
+                                                </ul>
+                                            </td>
+                                            <td width="10%" class="center">
+                                                <ul class="unstyled">
+                                                    <li>等待卖家付款</li>
+                                                    <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
+                                                </ul>
+                                            </td>
+                                            <td width="10%" class="center">
+                                                <ul class="unstyled">
+													<li><a href="#" class="sui-btn btn-info" ng-click="update('2')">立即付款</a></li>
+                                                    <li ng-click="update('2')">取消订单</li>
+                                                    
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        
+
+                                    </tbody>
+                                </table>
+                                </div>
+                              <!--数据列表/-->                        
+							  <tm-pagination conf="paginationConf" style="text-align:center" ></tm-pagination>
+                            </div>
+
+                   
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部栏位 -->
+    <!--页面底部-->
+<div class="clearfix footer">
+	<div class="py-container">
+		<div ng-include="'footer.html'"></div>
+	</div>
+</div>
+
+<!--页面底部END-->
+
+</html>

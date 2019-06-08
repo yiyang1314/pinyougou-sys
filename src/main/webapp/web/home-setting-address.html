@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>设置-个人信息</title>
+    <!--网页标题左侧显示-->
+    <link rel="icon" href="img/assets/favicon.ico" type="image/x-icon">
+    <!--收藏夹显示图标-->
+    <link rel="shortcut icon" href="img/assets/favicon.ico" type="image/x-icon">
+    
+
+    <link rel="stylesheet" type="text/css" href="css/webbase.css" />
+    <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js">  </script>
+    <script type="text/javascript" src="js/base.js">  </script>
+
+ 
+ 	<script type="text/javascript" src="js/service/areasService.js">  </script>
+  	<script type="text/javascript" src="js/service/citiesService.js">  </script>
+    <script type="text/javascript" src="js/service/provincesService.js">  </script>
+    <script type="text/javascript" src="js/service/addressService.js">  </script>
+    <script type="text/javascript" src="js/service/cartService.js">  </script>
+	<script type="text/javascript" src="js/service/itemService.js">  </script>
+     
+    <script type="text/javascript" src="js/controller/cartController.js">  </script>
+</head>
+
+<body  ng-app="pinyougou" ng-controller="cartController" ng-init="findAddressList();findCartList()">
+    <!-- 头部栏位 -->
+    <!--页面顶部-->
+	<div id="nav-bottom">
+		<div  ng-include="'searchtop.html'"> </div>
+	</div>
+
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#service").hover(function(){
+		$(".service").show();
+	},function(){
+		$(".service").hide();
+	});
+	$("#shopcar").hover(function(){
+		$("#shopcarlist").show();
+	},function(){
+		$("#shopcarlist").hide();
+	});
+
+})
+</script>
+<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="js/widget/nav.js"></script>
+<script type="text/javascript" src="pages/userInfo/distpicker.data.js"></script>
+<script type="text/javascript" src="pages/userInfo/distpicker.js"></script>
+<script type="text/javascript" src="pages/userInfo/main.js"></script>
+</body>
+    <!--header-->
+    <div id="account">
+        <div class="py-container">
+            <div class="yui3-g home">
+                <!--左侧列表-->
+                <div class="yui3-u-1-6 list">
+                      <div ng-include="'myhome.html'"></div>
+                </div>
+                <!--右侧主内容-->
+                <div class="yui3-u-5-6">
+                    <div class="body userAddress">
+                        <div class="address-title">
+                            <span class="title">地址管理</span>
+                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new"  ng-click="openAddress(1)">添加新地址</a>
+                            <span class="clearfix"></span>
+                        </div>
+                        <div class="address-detail">
+                            <table class="sui-table table-bordered">
+                                <thead>
+                                    <tr>
+                                       <th>
+			                                  <input id="address" type="checkbox" />
+			                           </th>
+                                        <th>姓名</th>
+                                        <th>地址</th>
+                                        <th>联系电话</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="ad in addressList">
+                                    	 <td><input  type="checkbox" ng-click="updateSelection($event, ad.id)" ></td>	
+                                        <td>{{ad.contact}}</td>
+                                        <td>{{ad.province}}&nbsp;&nbsp;{{ad.city}}&nbsp;&nbsp;{{ad.town}}&nbsp;&nbsp;{{ad.address}}</td>
+                                        <td>{{ad.mobile}}</td>
+                                        <td>
+                                            <a href="#" ng-click="openAddress(ad);">编辑</a>
+                                            <a href="#"  ng-click="delAddress()">删除</a>
+                                            <a href="#"  ng-if="2==1">默认地址</a>	
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>                          
+                        </div>
+                        <!--新增地址弹出层-->
+                         <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit" style="width:580px;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
+                                        <h4 id="myModalLabel" class="modal-title">新增地址</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="" class="sui-form form-horizontal">
+                                            <div class="control-group">
+                                            <label class="control-label">收货人：</label>
+                                            <div class="controls">
+                                                <input type="text" class="input-medium" ng-model="saveaddress.contact" >
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">所在地区：</label>
+                                            <div class="controls">
+                                                <div data-toggle="distpicker">
+                                                <div class="form-group area">
+                                                    <select class="form-control" id="province1" ng-model="provinceId"  ng-change="getCities()" ng-options="item.province for item in provinces" ></select>
+                                                </div>
+                                                <div class="form-group area">
+                                                    <select class="form-control" id="city1" ng-model="city" ng-change="getAreas()"  ng-options="cities.city for cities in cityList"></select>
+                                                </div>
+                                                <div class="form-group area">
+                                                    <select class="form-control" id="district1" ng-model="town"  ng-options="town.area for town in townList" ></select>
+                                                </div>
+                                            </div>
+                                            </div>									 
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">详细地址：</label>
+                                            <div class="controls">
+                                                <input type="text" class="input-large" ng-model="saveaddress.address">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">联系电话：</label>
+                                            <div class="controls">
+                                                <input type="text" class="input-medium" ng-model="saveaddress.mobile"​>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">地址别名：</label>
+                                            <div class="controls">
+                                                <input type="text" class="input-medium" ng-model="saveaddress.notes" >
+                                            </div>
+                                            <div class="othername">
+                                                建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
+                                            </div>
+                                        </div>
+                                        
+                                        </form>
+                                        
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" ng-click="saveAddress();saveAddress={}" data-ok="modal" class="sui-btn btn-primary btn-large">保存</button>
+                                        <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部栏位 -->
+    <!--页面底部-->
+<div class="clearfix footer">
+	<div class="py-container">
+		<div ng-include="'footer.html'"></div>
+	</div>
+</div>
+<!--页面底部END-->
+
+
+
+undefined
+
+</html>

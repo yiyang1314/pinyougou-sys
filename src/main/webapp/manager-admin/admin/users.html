@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商家管理</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+	    
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	
+	<!-- 分页组件开始 -->
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<!-- 分页组件结束 -->
+	
+	<script type="text/javascript" src="../js/base_pagination.js"></script>
+	<script type="text/javascript" src="../js/service/userService.js"></script>
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+	<script type="text/javascript" src="../js/controller/userController.js"></script>
+    
+</head>
+
+<body class="hold-transition skin-red sidebar-mini"   ng-app="pinyougou" ng-controller="userController" ng-init="findAll()">
+  <!-- .box-body -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">用户管理</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+
+                            <!--工具栏-->
+                            <div class="pull-left">
+                                <div class="form-group form-inline">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal"  ng-click="entity={}" ><i class="fa fa-file-o"></i><a href="../../shop_web/register.html">新建</a> </button>
+                                        <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o" ></i> 删除</button>           
+                                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-tools pull-right">
+                                <div class="has-feedback">
+							      	  用户名称：<input  ng-model="searchEntity.username">
+									手机号码： <input  ng-model="searchEntity.phone">
+									<button class="btn btn-default" ng-click="reloadList()">查询</button>                                    
+                                </div>
+                            </div>
+                            <!--工具栏/-->
+
+			                  <!--数据列表-->
+			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+			                      <thead>
+			                          <tr>
+			                              <th class="" style="padding-right:0px">
+			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                              </th> 
+										  <th class="sorting_asc">用户名</th>
+									      <th class="sorting">密码</th>
+									      <th class="sorting">注册时间</th>
+									      <th class="sorting">手机号</th>
+									      <th class="sorting">性别</th>
+									      <th class="sorting">真实姓名</th>
+									      <th class="sorting">vip等级</th>
+									      <th class="sorting">账户余额</th>
+									      <th class="sorting">到期时间</th>
+									      <th class="sorting">出生日期</th>										
+					                      <th class="text-center">操作</th>
+			                          </tr>
+			                      </thead>
+			                      <tbody>
+			                          <tr ng-repeat="admin in list">
+			                              <td><input  type="checkbox" ng-click="updateSelection($event, admin.id)"></td>			                              
+				                          <td>{{admin.username}}</td>
+									      <td>{{admin.password}}</td>
+									      <td>{{admin.created}}</td>
+									      <td>{{admin.phone}}</td>
+									      <td>{{admin.sex}}</td>
+									      <td>{{admin.name}}</td>
+									      <td>{{admin.userLevel}}</td>
+									      <td>{{admin.accountBalance}}</td>
+									      <td>{{admin.experienceValue}}</td>
+									      <td>{{admin.birthday}}</td>  
+		                                  <td class="text-center">                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" ng-click="findOne(admin.id)">修改</button>                                           
+		                                  </td>
+			                          </tr>
+
+			                      </tbody>
+			                  </table>
+			                  <!--数据列表/-->                        
+						 <!-- 分页 -->
+						<tm-pagination conf="paginationConf"></tm-pagination>
+							 
+                        </div>
+                        <!-- 数据表格 /-->
+                     </div>
+                    <!-- /.box-body -->	    
+                                
+<!-- 商家详情 -->
+<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">用户信息</h3>
+		</div>
+		<div class="modal-body">							
+			
+			 <ul class="nav nav-tabs">
+			  <li class="active"><a href="#home" data-toggle="tab">基本信息</a></li>
+			  <li><a href="#linkman" data-toggle="tab">联系方式</a></li>
+			  <li><a href="#certificate" data-toggle="tab">会员信息</a></li>
+			</ul>							
+			
+			<!-- 选项卡开始 -->         
+		    <div id="myTabContent" class="tab-content">
+			    <div class="tab-pane active in" id="home">
+			      <br>
+			      <table class="table table-bordered table-striped"  width="800px">
+			      	<tr>
+			      		<td>用户名</td>
+			      		<td>
+			      			<input  class="form-control"  placeholder="用户名"  ng-model="entity.username">
+			      		</td>
+			      	</tr>
+			      	<tr>
+			      		<td>出生日期</td>
+			      		<td><input type="datetime" class="form-control"  placeholder="出生日期"         ng-model="entity.birthday"></td>
+			      	</tr>
+			      	<tr>
+			      		<td>性别</td>
+			      		<td><input  class="form-control"  placeholder="性别"         ng-model="entity.sex"></td>
+			      	</tr>
+			      	<tr>
+			      		<td>上次登录时间</td>
+			      		<td><input  class="form-control"  placeholder="登录时间"         ng-model="entity.lastLoginTime"></td>
+			      	</tr>
+			      				      	<tr>
+			      		<td>创建时间</td>
+			      		<td><input type="datetime" class="form-control"  placeholder="创建时间"         ng-model="entity.created"></td>
+			      	</tr>
+			      </table>			      
+      			</div>	
+			    <div class="tab-pane fade" id="linkman">
+			    	<br>
+					<table class="table table-bordered table-striped" >
+					<tr>
+			      		<td>昵称</td>
+			      		<td>
+			      		<input  class="form-control"  placeholder="昵称"  ng-model="entity.nickname">
+			      		</td>
+			      	</tr>
+			      	<tr>
+			      		<td>手机号</td>
+			      		<td><input  class="form-control"  placeholder="手机号"   ng-model="entity.phone"></td>
+			      	</tr>
+			      	<tr>
+			      		<td>QQ</td>
+			      		<td><input  class="form-control"  placeholder="QQ"         ng-model="entity.qq"></td>
+			      	</tr>
+			      	<tr>
+			      		<td>E-Mail</td>
+			      		<td><input  class="form-control"  placeholder="EMAIL"      ng-model="entity.email"></td>
+			      	</tr>
+			      </table>
+			    </div>
+			    <div class="tab-pane fade" id="certificate">
+					<br>
+					<table class="table table-bordered table-striped" >
+						<tr>
+				      		<td>真实姓名</td>
+				      		<td>
+				      			<input  class="form-control" placeholder="真实姓名"   ng-model="entity.name">
+							</td>
+			      		</tr>
+				      	<tr>
+				      		<td>账户余额</td>
+				      		<td><input  class="form-control"  placeholder="账户余额"       ng-model="entity.accountBalance"></td>
+				      	</tr>
+				      	<tr>
+				      		<td>会员等级</td>
+				      		<td><input  class="form-control"  placeholder="会员等级"     ng-model="entity.userLevel"></td>
+				      	</tr>
+				      	<tr>
+				      		<td>到期时间</td>
+				      		<td><input type="datetime" class="form-control"  placeholder="超期时间"     ng-model="entity.experienceValue"></td>
+				      	</tr>				      	
+			     	</table>
+			    </div>
+			   </div> 			
+           <!-- 选项卡结束 -->          
+			
+			
+		</div>
+		<div class="modal-footer">						
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="updateStatus(entity.id,1)">审核通过</button>
+         	<button class="btn btn-danger"  data-dismiss="modal" aria-hidden="true" ng-click="updateStatus(entity.id,2)">审核未通过</button>
+            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"  ng-click="updateStatus(entity.id,3)">关闭商家</button>
+            <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">更新</button>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true" >关闭</button>
+		</div>
+	  </div>
+	</div>
+</div>
+
+
+</body>
+
+</html>
