@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /.settings/
 /target/
 /.svn/
@@ -8,4 +9,16 @@
 # Eclipse project files
 .classpath
 .project
+=======
+/.settings/
+/target/
+/.svn/
+/logs/
+*.class
+*.jar
+
+# Eclipse project files
+.classpath
+.project
+>>>>>>> c3d0b1b941f9709a935ee0f3fd727f498784dc40
 .DS_Store
